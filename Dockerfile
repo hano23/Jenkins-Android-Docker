@@ -2,7 +2,7 @@
 FROM jenkins/jenkins:2.303.2
 
 ## Define Environment
-LABEL maintainer="windsekirun@gmail.com"
+LABEL maintainer="ho.han@myrealtrip.com"
 
 ENV ANDROID_SDK_ZIP commandlinetools-linux-7583922_latest.zip
 ENV ANDROID_SDK_ZIP_URL https://dl.google.com/android/repository/$ANDROID_SDK_ZIP
@@ -42,6 +42,9 @@ RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(. /
 RUN apt-get update && apt-get install docker-ce -y --no-install-recommends
 RUN usermod -a -G docker jenkins
 
+## Install openjdk 11
+RUN apt-get update && apt-get install openjdk-11-jdk
+
 ## Install Android SDK into Image
 ADD $GRADLE_ZIP_URL /opt/
 RUN unzip /opt/$GRADLE_ZIP -d /opt/ && rm /opt/$GRADLE_ZIP
@@ -68,4 +71,4 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ## Install Jenkins plugin
 USER jenkins
 
-RUN jenkins-plugin-cli --plugins git gradle android-emulator ws-cleanup slack embeddable-build-status blueocean github-coverage-reporter jacoco github-pr-coverage-status locale
+RUN jenkins-plugin-cli --plugins git gradle android-emulator ws-cleanup slack embeddable-build-status blueocean github-coverage-reporter jacoco github-pr-coverage-status locale role-strategy jdk-tool google-login warnings-ng github-pr-comment-build sonar
