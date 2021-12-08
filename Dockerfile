@@ -43,7 +43,7 @@ RUN apt-get update && apt-get install docker-ce -y --no-install-recommends
 RUN usermod -a -G docker jenkins
 
 ## Install openjdk 11
-RUN apt-get update && apt-get install openjdk-11-jdk
+RUN apt-get update && apt-get install openjdk-11-jdk -y
 
 ## Install Android SDK into Image
 ADD $GRADLE_ZIP_URL /opt/
